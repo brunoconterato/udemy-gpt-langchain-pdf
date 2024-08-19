@@ -1,6 +1,6 @@
 # Instructions --> Do this before the original README.md instructions
 
-1. Create a .env file in the root of the project with the following content:
+## Create a .env file in the root of the project with the following content:
 
 ```
 SECRET_KEY=123
@@ -20,7 +20,7 @@ LANGFUSE_SECRET_KEY=
 ```
 
 
-2. (If needed) Install pipenv:
+## (If needed) Install pipenv:
 
 ```
 $ pip install pipenv
@@ -39,6 +39,24 @@ pipenv shell
 
 # Initialize the database
 flask --app app.web init-db
+
+```
+
+## Install faiss-gpu (if have nvidia gpu) or faiss-cpu (if not)
+
+[Faiss install](https://github.com/facebookresearch/faiss/blob/main/INSTALL.md)
+
+```
+# Choose version
+
+# CPU-only version
+$ conda install -c pytorch faiss-cpu=1.8.0
+
+# GPU(+CPU) version
+$ conda install -c pytorch -c nvidia faiss-gpu=1.8.0
+```
+
+<br>
 
 ```
 
