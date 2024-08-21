@@ -6,8 +6,13 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import OpenAIEmbeddings
 
+from app.chat.embeddings.openai import embedding_model
+from app.chat.vector_stores.faiss import MyFaissVectorIndex
+
 # Explicitly specify the path to the .env file if it's not in the same directory
-dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '.env')
+dotenv_path = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env"
+)
 print("dotenv_path: ", dotenv_path)
 # Load the .env file
 if load_dotenv(dotenv_path):
@@ -42,10 +47,8 @@ def create_embeddings_for_pdf(pdf_id: str, pdf_path: str):
 
     # 2. Divide the extracted text into manageable chunks.
     documents = loader.load_and_split(splitter)
-    
+
     # 3. Generate an embedding for each chunk.
     # 4. Persist the generated embeddings.
-    faiss_index = FAISS.from_documents(documents, OpenAIEmbeddings())
-    faiss_index.save_local("faiss_index", pdf_id)
-
-    return faiss_index
+    vector_index = MyFaissVectorIndex(embedding_model=embedding_model)
+    vector_index.aadd_embeddings_and_save(embedding_model, documents, pdf_id)
