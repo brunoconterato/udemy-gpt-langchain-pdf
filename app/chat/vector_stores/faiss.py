@@ -15,6 +15,10 @@ class MyFaissVectorIndex:
             self._vector_index.add_embeddings(embedding_model, documents, pdf_id)
         self._save_local(pdf_id)
         
+    # @brunoconterato
+    # we will not use this method
+    # Instead we will use the synchronous version of the method
+    # And use celery library to run the task asynchronously
     async def aadd_embeddings_and_save(self, embedding_model, documents, pdf_id):
         if self._vector_index is None:
             self._vector_index = await FAISS.afrom_documents(embedding_model, embedding_model)

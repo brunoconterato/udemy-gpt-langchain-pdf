@@ -51,4 +51,4 @@ def create_embeddings_for_pdf(pdf_id: str, pdf_path: str):
     # 3. Generate an embedding for each chunk.
     # 4. Persist the generated embeddings.
     vector_index = MyFaissVectorIndex(embedding_model=embedding_model)
-    vector_index.aadd_embeddings_and_save(embedding_model, documents, pdf_id)
+    vector_index.add_embeddings_and_save(embedding_model, documents, pdf_id)
