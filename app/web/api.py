@@ -4,7 +4,6 @@ from app.web.db import db
 from app.web.db.models import Message
 from app.web.db.models.conversation import Conversation
 
-
 def get_messages_by_conversation_id(
     conversation_id: str,
 ) -> AIMessage | HumanMessage | SystemMessage:

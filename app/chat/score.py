@@ -1,3 +1,10 @@
+# 🔗 langfuse Quickstart: https://langfuse.com/docs/get-started
+from langfuse.callback import CallbackHandler
+from dotenv import load_dotenv
+import os
+
+load_dotenv
+
 def score_conversation(
     conversation_id: str, score: float, llm: str, retriever: str, memory: str
 ) -> None:
@@ -17,8 +24,20 @@ def score_conversation(
     score_conversation('abc123', 0.75, 'llm_info', 'retriever_info', 'memory_info')
     """
 
-    pass
-
+    langfuse_handler = CallbackHandler(
+        secret_key=os.environ.get("LANGFUSE_SECRET_KEY"),
+        public_key=os.environ.get("LANGFUSE_PUBLIC_KEY"),
+        host=os.environ.get("LANGFUSE_HOST")
+    )
+    
+    # score_data = {
+    #     "conversation_id": conversation_id,
+    #     "score": score,
+    #     "llm": llm,
+    #     "retriever": retriever,
+    #     "memory": memory
+    # }
+    
 
 def get_scores():
     """

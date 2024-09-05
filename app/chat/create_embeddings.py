@@ -17,7 +17,6 @@ print("dotenv_path: ", dotenv_path)
 # Load the .env file
 if load_dotenv(dotenv_path):
     print("Environment variables loaded successfully.")
-    print("OPENAI key", os.environ.get("OPENAI_API_KEY"))
 else:
     print("Failed to load .env file.")
 

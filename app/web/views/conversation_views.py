@@ -52,4 +52,12 @@ def create_message(conversation):
             stream_with_context(chat.stream(input)), mimetype="text/event-stream"
         )
     else:
-        return jsonify({"role": "assistant", "content": chat.run(input)})
+        try:
+            return jsonify(
+                {
+                    "role": "assistant",
+                    "content": chat.invoke({"input": input}).get("answer"),
+                }
+            )
+        except Exception as e:
+            return jsonify({"error": str(e)})
