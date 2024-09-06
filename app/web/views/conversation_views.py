@@ -2,6 +2,7 @@ from flask import Blueprint, g, request, Response, jsonify, stream_with_context
 from app.web.hooks import login_required, load_model
 from app.web.db.models import Pdf, Conversation
 from app.chat import build_chat, ChatArgs
+from app.web.api import add_message_to_conversation, get_messages_by_conversation_id
 
 bp = Blueprint("conversation", __name__, url_prefix="/api/conversations")
 
@@ -53,11 +54,25 @@ def create_message(conversation):
         )
     else:
         try:
+            response = (
+                chat.invoke(
+                    {
+                        "input": input,
+                        "chat_history": get_messages_by_conversation_id(
+                            conversation.id
+                        ),
+                    }
+                ).get("answer"),
+            )
+            response = ''.join(response) if isinstance(response, tuple) else response
+            add_message_to_conversation(conversation.id, "human", input)
+            add_message_to_conversation(conversation.id, "ai", response)
             return jsonify(
                 {
-                    "role": "assistant",
-                    "content": chat.invoke({"input": input}).get("answer"),
+                    "role": "ai",
+                    "content": response
                 }
             )
         except Exception as e:
+            print("Error in create_message:", e)
             return jsonify({"error": str(e)})
