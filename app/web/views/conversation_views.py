@@ -64,15 +64,10 @@ def create_message(conversation):
                     }
                 ).get("answer"),
             )
-            response = ''.join(response) if isinstance(response, tuple) else response
+            response = "".join(response) if isinstance(response, tuple) else response
             add_message_to_conversation(conversation.id, "human", input)
             add_message_to_conversation(conversation.id, "ai", response)
-            return jsonify(
-                {
-                    "role": "ai",
-                    "content": response
-                }
-            )
+            return jsonify({"role": "ai", "content": response})
         except Exception as e:
             print("Error in create_message:", e)
             return jsonify({"error": str(e)})
